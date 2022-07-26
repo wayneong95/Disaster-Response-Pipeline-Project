@@ -26,5 +26,8 @@ The models folder contains train_classifier.py, which builds, trains, evaluate a
 
 ## Instructions<a name="instructions"></a>
 
-The main findings of the code can be found at the post available [here](https://medium.com/@misc.wayne123/which-time-of-the-year-should-you-visit-seattle-ed0f1db9b280).
+First, run the ETL pipeline to clean and store the data in the sqlite database via the command "python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db".
 
+Next, run the ML pipeline that trains the classifier and saves it as a pickle file via the command "python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl".
+
+Run the web app via the command "python run.py".
