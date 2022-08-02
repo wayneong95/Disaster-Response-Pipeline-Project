@@ -64,7 +64,7 @@ def save_data(df, database_filename):
             database_filename: file name of database to save to
     '''
     engine = create_engine(database_filename)
-    df.to_sql(df, engine, index=False)
+    df.to_sql(df, engine, index=False, if_exists = 'replace')
 
 def main():
     if len(sys.argv) == 4:
