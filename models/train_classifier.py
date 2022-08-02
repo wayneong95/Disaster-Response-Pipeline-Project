@@ -78,7 +78,16 @@ def build_model():
     ('tfidf', TfidfTransformer()),
     ('clf', MultiOutputClassifier(knn)),
     ])
-    return pipeline
+    
+    parameters = {
+        'clf__estimator__n_neighbors': [3, 5, 7, 9],
+        'clf__estimator__weights': ['uniform', 'distance'],
+        'clf__estimator__leaf_size': [15, 20, 25, 30]
+    }
+    
+    grid_pipeline = GridSearchCV(pipeline,parameters)
+
+    return grid_pipeline
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
