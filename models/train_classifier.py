@@ -20,6 +20,18 @@ from sklearn.model_selection import GridSearchCV
 
 
 def load_data(database_filepath):
+    '''
+    loads a dataframe from database_filepath and extracts the X and Y variables 
+    as well as the labels
+    
+    input:
+            database_filename: file name of database to load from
+    
+    output:
+            X (dataframe): X variables
+            Y (dataframe): Y variables
+            category_names: list of category names
+    '''
     engine = create_engine("sqlite:///" + database_filepath)
     df = pd.read_sql_table('df', engine)
     
@@ -31,6 +43,16 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    '''
+    returns tokenized, cleaned and lemmatized text
+    
+    input:
+            text: text to be tokenized, cleaned and lemmatized
+    
+    output:
+            clean_tokens: tokenized, cleaned and lemmatized text
+    
+    '''
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -43,6 +65,13 @@ def tokenize(text):
 
 
 def build_model():
+    '''
+    builds and returns machine learning pipeline
+    
+    output:
+            pipeline: machine learning pipeline
+    '''
+    
     knn = KNeighborsClassifier()
     pipeline = Pipeline([
     ('vect', CountVectorizer(tokenizer = tokenize)),
@@ -53,6 +82,15 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    '''
+    prints the classification report for each target column
+    
+    input:
+            model: model to be evaluated
+            X_test: test set used to predict
+            Y_test: actual target values
+            category_names: names of target columns
+    '''
     Y_pred = model.predict(X_test)
     
     for col in range(Y_test.shape[1]):
@@ -60,6 +98,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+     '''
+    saves trained model to a pickle file
+    
+    input:
+            model: trained model
+            model_filepath: filepath to save model to
+    '''
+    
     pickle.dump(model, open(model_filepath, 'wb'))
 
 
